@@ -1,0 +1,41 @@
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+grammar = CFG.fromstring("""
+  S -> NP_sg VP_sg
+  S -> NP_pl VP_pl
+  NP_sg -> Det N_sg
+  NP_pl -> Det N_pl
+  VP_sg -> V_sg NP_sg | V_sg NP_pl
+  VP_pl -> V_pl NP_sg | V_pl NP_pl
+  Det -> 'the' | 'a'
+  N_sg -> 'dog' | 'cat' | 'fox'
+  N_pl -> 'dogs' | 'cats' | 'foxes'
+  V_sg -> 'chases' | 'sees'
+  V_pl -> 'chase' | 'see'
+""")
+parser = ChartParser(grammar)
+def check_agreement(sentence):
+    tokens = sentence.split()
+    try:
+        trees = list(parser.parse(tokens))
+        if trees:
+            print(f"'{sentence}' → Agreement CORRECT")
+            for tree in trees:
+                tree.pretty_print()
+        else:
+            print(f"'{sentence}' → Agreement INCORRECT")
+    except ValueError:
+        print(f"'{sentence}' → Invalid sentence structure")
+
+sentences = [
+    "the dog chases the cat",
+    "the dogs chase the fox",
+    "the dog chase the cat",   
+    "a cat sees the dogs",
+    "the cats sees the dog"    
+]
+
+for s in sentences:
+    check_agreement(s)
+    print("-" * 50)
