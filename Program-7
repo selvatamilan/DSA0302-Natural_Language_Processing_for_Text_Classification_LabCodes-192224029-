@@ -1,0 +1,11 @@
+import nltk
+from nltk.tokenize import word_tokenize
+text = "The quick brown fox jumps over the lazy dog."
+
+tokens = word_tokenize(text)
+print("Tokens:", tokens)
+
+pos_tags = nltk.pos_tag(tokens)
+print("\nPart-of-Speech Tags:")
+for word, tag in pos_tags:
+    print(f"{word} → {tag}")
