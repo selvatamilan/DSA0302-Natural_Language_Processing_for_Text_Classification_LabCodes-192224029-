@@ -1,0 +1,26 @@
+import nltk
+from nltk.tokenize import word_tokenize
+
+text = "The quick brown fox jumps over the lazy dog"
+tokens = word_tokenize(text)
+
+tags = [(word, 'NN') for word in tokens]
+def apply_transformation_rules(tagged_tokens):
+    transformed = []
+    for word, tag in tagged_tokens:
+        if word.lower() == 'the':
+            tag = 'DT'
+        elif word.endswith('s'):
+            tag = 'NNS'
+        elif word.endswith('ing'):
+            tag = 'VBG'
+        elif word.endswith('ed'):
+            tag = 'VBD'
+        transformed.append((word, tag))
+    return transformed
+
+tagged_tokens = apply_transformation_rules(tags)
+
+print("Transformation-Based POS Tagging Results:")
+for word, tag in tagged_tokens:
+    print(f"{word} → {tag}")
