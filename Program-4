@@ -1,0 +1,25 @@
+class PluralFSM:
+    def __init__(self):
+        self.state = "START"
+
+    def pluralize(self, word):
+        self.state = "START"
+        
+        if word.endswith(("s", "x", "z", "ch", "sh")):
+            self.state = "ADD_ES"
+            return word + "es"
+        
+        elif word.endswith("y") and word[-2].lower() not in "aeiou":
+            self.state = "Y_TO_IES"
+            return word[:-1] + "ies"
+        
+        else:
+            self.state = "ADD_S"
+            return word + "s"
+
+fsm = PluralFSM()
+test_words = ["cat", "dog", "bus", "box", "baby", "boy", "church", "buzz"]
+
+for word in test_words:
+    plural = fsm.pluralize(word)
+    print(f"{word} → {plural}   (Rule applied: {fsm.state})")
