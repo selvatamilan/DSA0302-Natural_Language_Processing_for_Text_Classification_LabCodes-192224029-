@@ -1,0 +1,31 @@
+import nltk
+from nltk.corpus import brown
+from collections import defaultdict, Counter
+import random
+train_sents = brown.tagged_sents(tagset='universal')
+word_tag_counts = defaultdict(Counter)
+tag_counts = Counter()
+
+for sent in train_sents:
+    for word, tag in sent:
+        word = word.lower()
+        word_tag_counts[word][tag] += 1
+        tag_counts[tag] += 1
+def stochastic_pos_tagger(sentence):
+    tags = []
+    for word in sentence:
+        word_lower = word.lower()
+        if word_lower in word_tag_counts:
+            most_likely_tag = word_tag_counts[word_lower].most_common(1)[0][0]
+        else:
+
+            most_likely_tag = tag_counts.most_common(1)[0][0]
+        tags.append((word, most_likely_tag))
+    return tags
+
+test_sentence = "The quick brown fox jumps over the lazy dog".split()
+tagged_sentence = stochastic_pos_tagger(test_sentence)
+
+print("Stochastic POS Tagging Result:")
+for word, tag in tagged_sentence:
+    print(f"{word} → {tag}")
