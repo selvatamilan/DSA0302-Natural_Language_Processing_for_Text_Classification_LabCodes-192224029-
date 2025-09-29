@@ -6,7 +6,7 @@ tokens = word_tokenize(sentence)
 pos_tags = pos_tag(tokens)
 print("POS Tags:", pos_tags)
 np_grammar = r"""
-    NP: {<DT>?<JJ>*<NN.*>}   # NP = optional determiner + adjectives + noun
+    NP: {<DT>?<JJ>*<NN.*>}   
 """
 parser = RegexpParser(np_grammar)
 tree = parser.parse(pos_tags)
@@ -26,3 +26,4 @@ for np in noun_phrases:
             print(f"  - {syn.definition()}")
     else:
         print(f"{np}: No meaning found in WordNet.")
+
